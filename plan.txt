@@ -1,0 +1,49 @@
+🛒 Supermarket Inventory Workflow
+1️⃣ Product Entry (Adding New Stock)
+Step 1: Barcode Scanning
+•	📌 Scan the product’s barcode using a mobile scanner.
+•	🔍 Check if the barcode contains an expiry date (e.g., GS1-128 format).
+•	✅ If expiry date is found, save it in the database.
+•	❌ If expiry date is not found, proceed to OCR.
+Step 2: Use OCR (If Needed)
+•	📸 Scan the product package or label using the mobile camera.
+•	🧠 Extract expiry date using OCR (Tesseract or API like Google Vision).
+•	🔍 Validate format (DD/MM/YYYY, MM/YYYY, etc.).
+•	✅ If valid, save the expiry date in the database.
+•	❌ If uncertain, prompt the user for manual entry.
+Step 3: Manual Entry (If Needed)
+•	If both barcode and OCR fail, allow manual entry.
+•	User inputs product name, quantity, and expiry date.
+•	System validates expiry date before saving.
+➡️ The product is now stored in the inventory (products + stock tables).
+Step 4: Bulk Entry (For Large Quantity Stocking)
+•	User manually enters the product name, total quantity, and expiry date.
+•	System processes and saves the entire batch in one step.
+________________________________________
+2️⃣ Expiry Date Processing Logic
+1. Representative Sample Scanning
+•	Scan a single item from the pack to capture its product information and expiry date.
+•	System recognizes this as part of a multi-pack entry.
+2. Quantity Multiplier
+•	After scanning the representative item, prompt: "Is this part of a multi-pack?"
+•	User enters total quantity (e.g., 40 units).
+•	System automatically duplicates the entry with the same expiry date for all items.
+3. Batch Assignment
+•	All items are assigned the same batch number.
+•	System tracks them as being received together.
+________________________________________
+3️⃣ Sales & Checkout (Removing Items)
+Step 1: Scan Product at Checkout
+•	The cashier scans the barcode of the product.
+•	The system identifies the product and its expiry date (oldest stock first).
+Step 2: Reduce Inventory (FIFO - First In, First Out)
+•	The system checks stock for the earliest expiry date.
+•	✅ If stock is available, reduce quantity from that batch.
+•	❌ If that batch is empty, move to the next available batch.
+Step 3: Save Sale & Update Inventory
+•	Save sale details (product, quantity, date, expiry batch used).
+•	If stock falls below the threshold, send a low-stock alert.
+________________________________________
+4️⃣ Alerts & Notifications
+✅ Low Stock Alert – Notify the supermarket when an item is running low. ✅ Expiry Date Warning – Display a list of items expiring soon. ✅ Discount Suggestions – Mark soon-to-expire items for discounts (optional).
+
