@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h1>InventoryPro</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/home" class="active">Home</a></li>
+                    <li><a href="/products">Products</a></li>
+                    <li><a href="/reports">Reports</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="dashboard">
+                <div class="dashboard-header">
+                    <h2>Inventory Dashboard</h2>
+                    <div class="date-display" id="currentDate">April 1, 2025</div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Products</h3>
+                            <p class="stat-number" id="totalProducts">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Expiring Soon</h3>
+                            <p class="stat-number" id="expiringSoon">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon low">
+                            <i class="fas fa-level-down-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Low Stock</h3>
+                            <p class="stat-number" id="lowStock">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-options">
+                    <h2>Add Inventory</h2>
+                    <div class="option-cards">
+                        <a href="/manual-entry" class="option-card">
+                            <div class="option-icon">
+                                <i class="fas fa-keyboard"></i>
+                            </div>
+                            <h3>Manual / Bulk Entry</h3>
+                            <p>Manually enter product details or add multiple items at once</p>
+                        </a>
+                        <a href="/barcode-scanner" class="option-card">
+                            <div class="option-icon">
+                                <i class="fas fa-barcode"></i>
+                            </div>
+                            <h3>Barcode Scanner</h3>
+                            <p>Scan product barcodes to quickly add items to inventory</p>
+                        </a>
+                        <a href="/ocr-scanner" class="option-card">
+                            <div class="option-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <h3>OCR Scanner</h3>
+                            <p>Scan product labels to extract expiry dates automatically</p>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list" id="recentActivity">
+                        <div class="activity-item">
+                            <div class="activity-icon add">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-title">Added Inventory</p>
+                                <p class="activity-desc">40 units of Milk added</p>
+                                <p class="activity-time">10 minutes ago</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon remove">
+                                <i class="fas fa-minus"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-title">Checkout Sale</p>
+                                <p class="activity-desc">5 units of Bread sold</p>
+                                <p class="activity-time">15 minutes ago</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-title">Expiry Alert</p>
+                                <p class="activity-desc">10 units of Yogurt expiring tomorrow</p>
+                                <p class="activity-time">20 minutes ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 InventoryPro. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
