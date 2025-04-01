@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Inventory Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/products.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h1>InventoryPro</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/products" class="active">Products</a></li>
+                    <li><a href="/reports">Reports</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="products-container">
+                <div class="products-header">
+                    <h2>Product Inventory</h2>
+                    <div class="product-actions">
+                        <div class="search-bar">
+                            <input type="text" id="productSearch" placeholder="Search products...">
+                            <button class="icon-btn"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="filter-dropdown">
+                            <select id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="dairy">Dairy</option>
+                                <option value="bakery">Bakery</option>
+                                <option value="produce">Produce</option>
+                                <option value="meat">Meat</option>
+                                <option value="frozen">Frozen</option>
+                                <option value="beverages">Beverages</option>
+                                <option value="snacks">Snacks</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <a href="/manual-entry" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Product
+                        </a>
+                    </div>
+                </div>
+
+                <div class="inventory-stats">
+                    <div class="stat-pill">
+                        <div class="stat-label">Total Products:</div>
+                        <div class="stat-value" id="totalProductsCount">0</div>
+                    </div>
+                    <div class="stat-pill warning">
+                        <div class="stat-label">Expiring Soon:</div>
+                        <div class="stat-value" id="expiringSoonCount">0</div>
+                    </div>
+                    <div class="stat-pill danger">
+                        <div class="stat-label">Low Stock:</div>
+                        <div class="stat-value" id="lowStockCount">0</div>
+                    </div>
+                </div>
+
+                <div class="product-table-container">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th>Product Name <i class="fas fa-sort"></i></th>
+                                <th>Category</th>
+                                <th>Quantity <i class="fas fa-sort"></i></th>
+                                <th>Price <i class="fas fa-sort"></i></th>
+                                <th>Expiry Date <i class="fas fa-sort"></i></th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTableBody">
+                            <!-- Products will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="pagination-pages">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                    </div>
+                    <button class="pagination-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="bulk-actions">
+                    <h3>Bulk Actions:</h3>
+                    <button class="btn btn-secondary" id="exportSelectedBtn">
+                        <i class="fas fa-download"></i> Export Selected
+                    </button>
+                    <button class="btn btn-secondary" id="printLabelsBtn">
+                        <i class="fas fa-print"></i> Print Labels
+                    </button>
+                    <button class="btn btn-danger" id="removeSelectedBtn">
+                        <i class="fas fa-trash"></i> Remove Selected
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 InventoryPro. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Product Details</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="product-details">
+                    <div class="detail-group">
+                        <label>Product Name:</label>
+                        <p id="modalProductName"></p>
+                    </div>
+                    <div class="detail-group">
+                        <label>SKU/Barcode:</label>
+                        <p id="modalProductSKU"></p>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-group">
+                            <label>Category:</label>
+                            <p id="modalProductCategory"></p>
+                        </div>
+                        <div class="detail-group">
+                            <label>Quantity:</label>
+                            <p id="modalProductQuantity"></p>
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-group">
+                            <label>Price:</label>
+                            <p id="modalProductPrice"></p>
+                        </div>
+                        <div class="detail-group">
+                            <label>Expiry Date:</label>
+                            <p id="modalProductExpiry"></p>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <label>Notes:</label>
+                        <p id="modalProductNotes"></p>
+                    </div>
+                    <div class="detail-group">
+                        <label>Added:</label>
+                        <p id="modalProductAdded"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="editProductBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger" id="deleteProductBtn">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Deletion</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <span id="deleteProductName"></span>?</p>
+                <p class="warning-text">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <p id="notificationMessage"></p>
+        </div>
+        <button id="closeNotification"><i class="fas fa-times"></i></button>
+    </div>
+
+    <script src="/static/js/products.js"></script>
+</body>
+</html>

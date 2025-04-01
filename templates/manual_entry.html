@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Entry - Inventory Management System</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/manual_entry.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h1>InventoryPro</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/products">Products</a></li>
+                    <li><a href="/reports">Reports</a></li>
+                    <li><a href="/settings">Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="entry-container">
+                <div class="entry-header">
+                    <h2>Manual & Bulk Entry</h2>
+                    <div class="entry-tabs">
+                        <button class="tab-btn active" id="manualTab">Manual Entry</button>
+                        <button class="tab-btn" id="bulkTab">Bulk Entry</button>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <!-- Manual Entry Form -->
+                    <div class="entry-form active" id="manualForm">
+                        <h3>Add Individual Product</h3>
+                        <form id="singleProductForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productName">Product Name*</label>
+                                    <input type="text" id="productName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productSKU">SKU/Barcode</label>
+                                    <input type="text" id="productSKU">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productCategory">Category</label>
+                                    <select id="productCategory">
+                                        <option value="">Select Category</option>
+                                        <option value="dairy">Dairy</option>
+                                        <option value="bakery">Bakery</option>
+                                        <option value="produce">Produce</option>
+                                        <option value="meat">Meat</option>
+                                        <option value="frozen">Frozen</option>
+                                        <option value="beverages">Beverages</option>
+                                        <option value="snacks">Snacks</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productQuantity">Quantity*</label>
+                                    <input type="number" id="productQuantity" min="1" value="1" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productPrice">Unit Price ($)*</label>
+                                    <input type="number" id="productPrice" step="0.01" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productExpiryDate">Expiry Date*</label>
+                                    <input type="date" id="productExpiryDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productNotes">Notes</label>
+                                <textarea id="productNotes" rows="2"></textarea>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="isMultiPack">
+                                <label for="isMultiPack">This is part of a multi-pack with same expiry date</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="reset" class="btn btn-secondary">Clear</button>
+                                <button type="submit" class="btn btn-primary">Add Product</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Bulk Entry Form -->
+                    <div class="entry-form" id="bulkForm">
+                        <h3>Add Multiple Products</h3>
+                        <form id="bulkProductForm">
+                            <div class="table-container">
+                                <table id="bulkEntryTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name*</th>
+                                            <th>Category</th>
+                                            <th>Quantity*</th>
+                                            <th>Unit Price ($)*</th>
+                                            <th>Expiry Date*</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" name="name[]" required></td>
+                                            <td>
+                                                <select name="category[]">
+                                                    <option value="">Select</option>
+                                                    <option value="dairy">Dairy</option>
+                                                    <option value="bakery">Bakery</option>
+                                                    <option value="produce">Produce</option>
+                                                    <option value="meat">Meat</option>
+                                                    <option value="frozen">Frozen</option>
+                                                    <option value="beverages">Beverages</option>
+                                                    <option value="snacks">Snacks</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="number" name="quantity[]" min="1" value="1" required></td>
+                                            <td><input type="number" name="price[]" step="0.01" min="0" required></td>
+                                            <td><input type="date" name="expiry[]" required></td>
+                                            <td class="action-cell">
+                                                <button type="button" class="icon-btn delete-row"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-actions bulk-actions">
+                                <button type="button" class="btn btn-secondary" id="addRowBtn">
+                                    <i class="fas fa-plus"></i> Add Row
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="clearBulkBtn">Clear All</button>
+                                <button type="button" class="btn btn-secondary" id="importCSVBtn">Import CSV</button>
+                                <button type="submit" class="btn btn-primary">Add All Products</button>
+                            </div>
+                        </form>
+                        <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 InventoryPro. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <p id="notificationMessage"></p>
+        </div>
+        <button id="closeNotification"><i class="fas fa-times"></i></button>
+    </div>
+
+    <script src="/static/js/manual_entry.js"></script>
+</body>
+</html>
